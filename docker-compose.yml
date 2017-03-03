@@ -1,0 +1,17 @@
+version: '2.1'
+services:
+  mongo:
+    build: ./images/mongo
+    image: mongo
+    command: '/usr/bin/mongod --port 30000 --smallfiles'
+    ports:
+      - "30000:30000"
+  mongo-seed:
+    image: mongo
+    depends_on:
+      mongo:
+        condition: service_started
+    volumes:
+      - ./data:/data/seed
+    command: '/data/seed/week3.sh'
+
